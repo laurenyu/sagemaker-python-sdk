@@ -198,7 +198,7 @@ class Session(object):  # pylint: disable=too-many-public-methods
 
         bucket = bucket or self.default_bucket()
         if self.s3_resource is None:
-            s3 = self.boto_session.resource("s3", region_name=self.boto_region_name)
+            s3 = self.boto_session.resource("s3")
         else:
             s3 = self.s3_resource
 
