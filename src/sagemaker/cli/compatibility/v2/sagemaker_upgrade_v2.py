@@ -68,8 +68,66 @@ def _parse_args():
         "must be either '.py' or '.ipynb'. If needed, directories in the output path are created. "
         "If the output file already exists, it is overwritten.",
     )
+    #     parser.add_argument(
+    #         "--intree",
+    #         dest="input_tree",
+    #         help="If converting a whole tree of files, the directory "
+    #         "to read from (relative or absolute).")
+    #     parser.add_argument(
+    #         "--outtree",
+    #         dest="output_tree",
+    #         help="If converting a whole tree of files, the output "
+    #         "directory (relative or absolute).")
+    #     parser.add_argument(
+    #         "--copyotherfiles",
+    #         dest="copy_other_files",
+    #         help=("If converting a whole tree of files, whether to "
+    #               "copy the other files."),
+    #         type=bool,
+    #         default=True)
+    #     parser.add_argument(
+    #         "--inplace",
+    #         dest="in_place",
+    #         help=("If converting a set of files, whether to "
+    #               "allow the conversion to be performed on the "
+    #               "input files."),
+    #         action="store_true")
+    #     parser.add_argument(
+    #         "--reportfile",
+    #         dest="report_filename",
+    #         help=("The name of the file where the report log is "
+    #               "stored."
+    #               "(default: %(default)s)"),
+    #         default="report.txt")
+    parser.add_argument(
+        "--print_all",
+        dest="print_all",
+        help="Print full log to stdout instead of just printing errors",
+        action="store_true",
+    )
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    #     if args.input_file:
+    #         if not args.in_place and not args.output_file:
+    #             raise ValueError(
+    #                 "--outfile=<output file> argument is required when converting a "
+    #                 "single file.")
+    #         if args.in_place and args.output_file:
+    #             raise ValueError(
+    #                 "--outfile argument is invalid when when converting in place")
+    #     elif args.input_tree:
+    #         if not args.in_place and not args.output_tree:
+    #             raise ValueError(
+    #                 "--outtree=<output directory> argument is required when converting a "
+    #                 "file tree.")
+    #         if args.in_place and args.output_tree:
+    #             raise ValueError(
+    #                 "--outtree argument is invalid when when converting in place")
+    #     else:
+    #         parser.print_help()
+
+    return args
 
 
 def main():
