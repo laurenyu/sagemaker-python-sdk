@@ -22,6 +22,7 @@ import sagemaker
 import sagemaker.predictor
 import sagemaker.utils
 import tests.integ
+import tests.integ.lock
 import tests.integ.timeout
 from sagemaker.deserializers import JSONDeserializer
 from sagemaker.tensorflow.model import TensorFlowModel, TensorFlowPredictor
@@ -72,12 +73,13 @@ def tfs_predictor_with_model_and_entry_point_same_tar(
         sagemaker_session=sagemaker_local_session,
         name=endpoint_name,
     )
-    predictor = model.deploy(1, "local", endpoint_name=endpoint_name)
 
-    try:
-        yield predictor
-    finally:
-        predictor.delete_endpoint()
+    with tests.integ.lock.lock(tests.integ.LOCAL_MODE_LOCK_PATH):
+        predictor = model.deploy(1, "local", endpoint_name=endpoint_name)
+        try:
+            yield predictor
+        finally:
+            predictor.delete_endpoint()
 
 
 @pytest.fixture(scope="module")
@@ -107,12 +109,12 @@ def tfs_predictor_with_model_and_entry_point_and_dependencies(
         name=endpoint_name,
     )
 
-    predictor = model.deploy(1, "local", endpoint_name=endpoint_name)
-    try:
-
-        yield predictor
-    finally:
-        predictor.delete_endpoint()
+    with tests.integ.lock.lock(tests.integ.LOCAL_MODE_LOCK_PATH):
+        predictor = model.deploy(1, "local", endpoint_name=endpoint_name)
+        try:
+            yield predictor
+        finally:
+            predictor.delete_endpoint()
 
 
 @pytest.fixture(scope="module")
